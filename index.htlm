@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto-Questionnaire IVG</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .hidden { display: none; }
+        .question { margin-bottom: 15px; }
+        button { margin-top: 15px; padding: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h2>Auto-Questionnaire IVG</h2>
+    
+    <form id="questionnaire">
+        <!-- Section 1 : Informations générales -->
+        <div class="question">
+            <label>1. Quels sont vos besoins pour cette consultation ?</label><br>
+            <input type="checkbox" name="besoins" value="IVG médicamenteuse"> IVG médicamenteuse<br>
+            <input type="checkbox" name="besoins" value="IVG chirurgicale"> IVG chirurgicale<br>
+            <input type="checkbox" name="besoins" value="Échographie"> Échographie<br>
+            <input type="checkbox" name="besoins" value="Informations"> Informations<br>
+            <input type="checkbox" name="besoins" value="Aides"> Aides<br>
+            <input type="text" name="besoins_autre" placeholder="Autre (préciser)">
+        </div>
+        
+        <div class="question">
+            <label>2. Vous sentez-vous soutenue par votre entourage ?</label><br>
+            <input type="radio" name="soutien" value="Oui"> Oui
+            <input type="radio" name="soutien" value="Non"> Non
+        </div>
+        
+        <div class="question">
+            <label>3. Venez-vous de votre plein gré ?</label><br>
+            <input type="radio" name="consentement" value="Oui"> Oui
+            <input type="radio" name="consentement" value="Non"> Non
+        </div>
+        
+        <!-- Section 2 : Antécédents médicaux et gynécologiques -->
+        <div class="question">
+            <label>4. Quel est votre groupe sanguin ?</label><br>
+            <input type="text" name="groupe_sanguin">
+        </div>
+        
+        <div class="question">
+            <label>5. Avez-vous des antécédents médicaux ? (troubles de la coagulation, diabète, hypertension, etc.)</label><br>
+            <input type="radio" name="antecedents_medicaux" value="Oui"> Oui
+            <input type="radio" name="antecedents_medicaux" value="Non"> Non
+            <input type="text" name="antecedents_details" placeholder="Précisez si oui">
+        </div>
+        
+        <div class="question">
+            <label>6. Avez-vous déjà eu des grossesses ?</label><br>
+            <input type="radio" name="grossesses" value="Oui"> Oui
+            <input type="radio" name="grossesses" value="Non"> Non
+        </div>
+        
+        <!-- Section 3 : Consommations et habitudes -->
+        <div class="question">
+            <label>7. Fumez-vous actuellement ?</label><br>
+            <input type="radio" name="tabac" value="Oui"> Oui
+            <input type="radio" name="tabac" value="Non"> Non
+        </div>
+        
+        <div class="question">
+            <label>8. Consommez-vous de l’alcool ?</label><br>
+            <input type="radio" name="alcool" value="Moins de 10 verres"> Moins de 10 verres par semaine
+            <input type="radio" name="alcool" value="Plus de 10 verres"> Plus de 10 verres par semaine
+        </div>
+        
+        <!-- Section 4 : Dépistages -->
+        <div class="question">
+            <label>9. Avez-vous déjà eu un dépistage des IST ?</label><br>
+            <input type="radio" name="depistage_ist" value="Oui"> Oui
+            <input type="radio" name="depistage_ist" value="Non"> Non
+        </div>
+        
+        <!-- Section 5 : Contraception -->
+        <div class="question">
+            <label>10. Avez-vous une contraception ?</label><br>
+            <input type="radio" name="contraception" value="Oui"> Oui
+            <input type="radio" name="contraception" value="Non"> Non
+            <input type="text" name="contraception_details" placeholder="Précisez si oui">
+        </div>
+        
+        <!-- Section 6 : État émotionnel -->
+        <div class="question">
+            <label>11. Avez-vous eu des troubles du sommeil, anxiété ou stress cette année ?</label><br>
+            <input type="radio" name="etat_emo" value="Oui"> Oui
+            <input type="radio" name="etat_emo" value="Non"> Non
+        </div>
+        
+        <!-- Section 7 : Violence et sécurité -->
+        <div class="question">
+            <label>12. Avez-vous déjà été victime de violences ?</label><br>
+            <input type="radio" name="violences" value="Oui"> Oui
+            <input type="radio" name="violences" value="Non"> Non
+        </div>
+        
+        <button type="button" onclick="generateSummary()">Générer le Résumé</button>
+    </form>
+    
+    <h3>Résumé :</h3>
+    <pre id="summary"></pre>
+    
+    <script>
+        function generateSummary() {
+            let form = document.getElementById('questionnaire');
+            let summary = '';
+            let elements = form.elements;
+            for (let i = 0; i < elements.length; i++) {
+                if (elements[i].type === 'radio' && elements[i].checked) {
+                    summary += elements[i].name.toUpperCase() + ' : ' + elements[i].value + '\n';
+                } else if (elements[i].type === 'checkbox' && elements[i].checked) {
+                    summary += elements[i].name.toUpperCase() + ' : ' + elements[i].value + '\n';
+                } else if (elements[i].type === 'text' && elements[i].value.trim() !== '') {
+                    summary += elements[i].name.toUpperCase() + ' : ' + elements[i].value + '\n';
+                }
+            }
+            document.getElementById('summary').innerText = summary || "Aucune réponse fournie.";
+        }
+    </script>
+</body>
+</html>
+
